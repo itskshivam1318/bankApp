@@ -1,0 +1,15 @@
+{%extends 'base.html'%} {%block head%}
+<title>Create Customer</title>
+{%endblock%} {%block body%}
+<h1>Create Customer</h1>
+<form action="/createAccount" method="POST">
+  <input type="text" name="customer_id" placeholder="1" />
+  <select name="account_type">
+    <option value="Saving">Saving</option>
+    <option value="Current">Current</option>
+  </select>
+  <input type="text" name="balance" placeholder="5000.00" value="5000" />
+  <input type="submit" value="submit" />
+</form>
+
+{%endblock%}
