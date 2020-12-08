@@ -1,0 +1,11 @@
+{%extends 'base.html'%} {%block head%}
+<title>Withdraw Money</title>
+{%endblock%} {%block body%}
+<h1>Withdraw Money</h1>
+<form action="/withdrawMoney" method="POST">
+  <input type="text" name="account_id" placeholder="1" />
+  <input type="text" name="amount" placeholder="5000.00" />
+  <input type="submit" value="submit" />
+</form>
+
+{%endblock%}

@@ -42,11 +42,13 @@ class Account(db.Model):
 class Transaction(db.Model):
     transaction_id = db.Column(db.Integer,primary_key=True)
     customer_id = db.Column(db.Integer,nullable=False)
+    account_id = db.Column(db.Integer,nullable=False)
     account_type = db.Column(db.String(10),nullable=False)
     amount = db.Column(db.Integer,nullable=False)
+    transaction_type = db.Column(db.String(10),nullable=False)
     transaction_date = db.Column(db.DateTime,default =datetime.utcnow)
-    source_account = db.Column(db.Integer,nullable=False)
-    target_account = db.Column(db.Integer,nullable=False)
+    source_account = db.Column(db.Integer)
+    target_account = db.Column(db.Integer)
 # @app.before_request
 # def before_request():
 #     g.user = None
@@ -192,19 +194,83 @@ def showAccount():
     accounts = Account.query.order_by(Account.customer_id).all()
     return render_template('showAccount.html',accounts=accounts)
 
-@app.route('/depositMoney')
+@app.route('/depositMoney',methods=['GET','POST'])
 def depositMoney():
-    pass
+    if request.method == 'POST':
+        account_id = request.form['account_id']
+        amount = request.form['amount']
 
-@app.route('/withdrawMoney')
+        account_obj = Account.query.get_or_404(account_id) 
+        new_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Credit(deposit)")
+
+        update_balance = int(account_obj.balance) + int(amount)
+        account_obj.balance = update_balance
+
+        try:
+            db.session.add(new_transaction)
+            db.session.commit()
+            return redirect('/showTransaction')
+        except:
+            return 'Transaction failed'
+    else:
+        return render_template('depositMoney.html')
+
+@app.route('/withdrawMoney',methods=['GET','POST'])
 def withdrawMoney():
-    pass
+    if request.method == 'POST':
+        account_id = request.form['account_id']
+        amount = request.form['amount']
 
-@app.route('/transferMoney')
+        account_obj = Account.query.get_or_404(account_id) 
+        new_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Debit(Withdraw)")
+
+        update_balance = int(account_obj.balance) - int(amount)
+        account_obj.balance = update_balance
+
+        try:
+            db.session.add(new_transaction)
+            db.session.commit()
+            return redirect('/showTransaction')
+        except:
+            return 'Transaction failed'
+    else:
+        return render_template('withdrawMoney.html')
+
+@app.route('/transferMoney',methods=['GET','POST'])
 def transferMoney():
-    pass
+    if request.method == 'POST':
+        account_id = request.form['account_id']
+        target_account = request.form['target_account']
+        amount = request.form['amount']
 
-@app.route('/printStatement')
+        account_obj = Account.query.get_or_404(account_id) 
+        target_account_obj = Account.query.get_or_404(target_account)
+        new_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Debit(transfer)",source_account=account_id,target_account=target_account)
+
+        update_balance = int(account_obj.balance) - int(amount)
+        account_obj.balance = update_balance
+
+        try:
+            db.session.add(new_transaction)
+            db.session.commit()
+            return redirect('/showTransaction')
+        except:
+            return 'Transaction failed'
+    else:
+        return render_template('transferMoney.html')
+
+@app.route('/showTransaction')
+def showTransaction():
+    transactions = Transaction.query.order_by(Transaction.transaction_date).all()
+    return render_template('showTransaction.html',transactions=transactions)
+
+@app.route('/printStatement',methods=['GET','POST'])
 def printStatement():
     pass
     

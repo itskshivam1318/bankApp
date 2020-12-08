@@ -1,0 +1,12 @@
+{%extends 'base.html'%} {%block head%}
+<title>Transfer Money</title>
+{%endblock%} {%block body%}
+<h1>Transfer Money</h1>
+<form action="/transferMoney" method="POST">
+  <input type="text" name="account_id" placeholder="1" />
+  <input type="text" name="target_account" placeholder="1" />
+  <input type="text" name="amount" placeholder="5000.00" />
+  <input type="submit" value="submit" />
+</form>
+
+{%endblock%}
