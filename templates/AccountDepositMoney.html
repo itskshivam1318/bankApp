@@ -14,17 +14,19 @@
 </nav>
 <div class="container">
   <h1>Deposit Money</h1>
-  <form action="/depositMoney" method="POST">
+  <form action="/depositMoney/{{account_id}}" method="POST">
     <div class="d-grid gap-2 col-6 mx-auto">
       <div class="mb-3">
         <label for="accountid" class="form-label">Account No</label>
         <input
           type="text"
+          readonly
           class="form-control"
           id="accountid"
           aria-describedby="emailHelp"
           name="account_id"
           placeholder="Account No"
+          value="{{account_id}}"
         />
       </div>
       <div class="mb-3">

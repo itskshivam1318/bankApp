@@ -3,8 +3,8 @@
 {%endblock%} {%block body%}
 <h1>Create Account</h1>
 <a href="/CAEDashboard">Home</a>
-<form action="/createAccount" method="POST">
-  <input type="text" name="customer_id" placeholder="1" />
+Customer id: {{customer_id}}
+<form action="/createAccount/{{customer_id}}" method="POST">
   <select name="account_type">
     <option value="Saving">Saving</option>
     <option value="Current">Current</option>

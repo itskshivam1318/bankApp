@@ -1,41 +1,61 @@
 {%extends 'base.html'%} {%block head%}
 <title>Login</title>
 {%endblock%} {%block body%}
-<h1>Login</h1>
-<form action="/login" method="POST">
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Username</label>
-    <input
-      type="text"
-      class="form-control"
-      id="exampleInputEmail1"
-      aria-describedby="emailHelp"
-      name="username"
-      placeholder="john doe"
-    />
+<div class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+      <h2>
+        <span class="navbar-brand mb-0">Login</span>
+      </h2>
+    </div>
+    <div class="col"></div>
   </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input
-      type="password"
-      class="form-control"
-      id="exampleInputPassword1"
-      name="password"
-    />
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputSelect" class="form-label">Role</label>
-    <select
-      class="form-select"
-      aria-label="Default select example"
-      id="exampleInputSelect"
-      name="role"
-    >
-      <option selected>Select role</option>
-      <option value="CAE">Customer Account Executive</option>
-      <option value="Cashier">Cashier/Teller</option>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-primary" value="submit">Submit</button>
-</form>
-{%endblock%}
+  <form action="/login" method="POST">
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          name="username"
+          placeholder="john doe"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          name="password"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputSelect" class="form-label">Role</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="exampleInputSelect"
+          name="role"
+        >
+          <option selected>Select role</option>
+          <option value="CAE">Customer Account Executive</option>
+          <option value="Cashier">Cashier/Teller</option>
+        </select>
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button
+          type="submit"
+          class="btn btn-lg btn-primary btn-block"
+          value="submit"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </form>
+  {%endblock%}
+</div>

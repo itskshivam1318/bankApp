@@ -1,26 +1,31 @@
 {%extends 'base.html'%} {%block head%}
-<title>Show Accounts</title>
+<title>Show Account</title>
 {%endblock%} {%block body%}
-<h1>Show Accounts</h1>
+<h1>Show Account</h1>
 <a href="/CAEDashboard">Home</a>
-<a href="/createAccount">Create Account</a>
 <table>
   <tr>
     <th>Account Id</th>
     <th>Customer Id</th>
+    <th>SSN</th>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Age</th>
     <th>Type</th>
     <th>Balance</th>
   </tr>
-  {%for account in accounts%}
   <tr>
     <td>{{account.account_id}}</td>
     <td>{{account.customer_id}}</td>
+    <td>{{customer.ssn}}</td>
+    <td>{{customer.name}}</td>
+    <td>{{customer.address}}</td>
+    <td>{{customer.age}}</td>
     <td>{{account.account_type}}</td>
     <td>{{account.balance}}</td>
     <td>
       <a href="/deleteAccount/{{account.account_id}}">Delete</a>
     </td>
   </tr>
-  {% endfor%}
 </table>
 {%endblock%}

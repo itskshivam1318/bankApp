@@ -16,7 +16,13 @@
     ></script>
     {%block head%}{%endblock%}
   </head>
-  <body class="container-sm">
+  <body style="padding: 10px">
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand">ABC Bank</a>
+      </div>
+    </nav>
+
     {%block body%} {% with messages = get_flashed_messages() %} {% if messages%}
     <ul class="flashes">
       {% for message in messages %}

@@ -1,9 +1,70 @@
 {%extends 'base.html'%} {%block head%}
 <title>CAE Dashboard</title>
 {%endblock%} {%block body%}
-<h1>CAE Dashboard</h1>
-<a href="/showCustomer">Customer Management</a>
-<a href="#">Account Management</a>
-<a href="/logout">logout</a>
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex">
+      <button class="btn btn-outline-danger" type="submit"><a href="/logout" style="text-decoration: none; color: red">logout</a></button>
+    </form>
+  </div>
+</nav>
 
-{%endblock%}
+  <div class="container">
+    <h1>CAE Dashboard</h1>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-6">
+        <h2>
+          <span class="navbar-brand mb-0">
+            <button type="button" class="btn btn-secondary btn-lg">
+              <a
+                href="/showCustomer"
+                style="text-decoration: none; color: white"
+                >Customer Management</a
+              >
+            </button>
+            <button type="button" class="btn btn-secondary btn-lg">
+              <a href="/showAccount" style="text-decoration: none; color: white"
+                >Account Management</a
+              >
+            </button>
+          </span>
+        </h2>
+      </div>
+      <div class="col"></div>
+    </div>
+    <h4>Search Account</h4>
+    <form action="/searchAccount" class="container-md" method="POST">
+      <input
+        class="form-control"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        name="search_Account"
+      />
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-md btn-outline-success" type="submit">
+          Search
+        </button>
+      </div>
+    </form>
+
+    <h4>Search Customer</h4>
+    <form action="/searchCustomer" class="container-md" method="POST">
+      <input
+        class="form-control"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        name="search_Customer"
+      />
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-md btn-outline-success" type="submit">
+          Search
+        </button>
+      </div>
+    </form>
+
+    {%endblock%}
+  </div>
+</div>

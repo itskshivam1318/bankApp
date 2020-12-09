@@ -171,12 +171,36 @@ def createAccount():
         try:
             db.session.add(new_account)
             db.session.commit()
-            return redirect('/CAEDashboard')
+            return redirect('/showAccount')
         except:
             return 'There was a problem in creating'
 
     else:
         return render_template('createAccount.html')
+
+@app.route('/createAccount/<int:customer_id>',methods=['GET','POST'])
+def createIndividualAccount(customer_id):
+    if request.method == 'POST':
+        customer_id = customer_id
+        account_type = request.form['account_type']
+        balance = request.form['balance']
+        # cr_date
+        # cr_last_date
+        # duration
+        # customer_obj = Customer.query.filter_by(customer_id=customer_id)
+        customer_obj = Customer.query.get_or_404(customer_id)
+        new_account = Account(customer_id=customer_obj.customer_id,account_type=account_type,balance=balance)
+        print (new_account)
+
+        try:
+            db.session.add(new_account)
+            db.session.commit()
+            return redirect('/CAEDashboard')
+        except:
+            return 'There was a problem in creating'
+
+    else:
+        return render_template('createIndividualAccount.html',customer_id=customer_id)
 
 @app.route('/deleteAccount/<int:account_id>')
 def deleteAccount(account_id):
@@ -193,6 +217,32 @@ def deleteAccount(account_id):
 def showAccount():
     accounts = Account.query.order_by(Account.customer_id).all()
     return render_template('showAccount.html',accounts=accounts)
+
+@app.route('/searchAccount',methods=['POST','GET'])
+def searchAccount():
+    if request.method == 'POST':
+        account_id = request.form['search_Account']
+        account = Account.query.get_or_404(account_id)
+        customer = Customer.query.get_or_404(account.customer_id)
+        return render_template('account.html',account = account,customer=customer)
+
+@app.route('/cashierSearchAccount',methods=['POST','GET'])
+def cashierSearchAccount():
+    if request.method == 'POST':
+        account_id = request.form['search_Account']
+        account = Account.query.get_or_404(account_id)
+        customer = Customer.query.get_or_404(account.customer_id)
+        return render_template('cashierAccount.html',account = account,customer=customer)
+
+@app.route('/searchCustomer',methods=['POST','GET'])
+def searchCustomer():
+    if request.method == 'POST':
+        customer_id = request.form['search_Customer']
+        customer = Customer.query.get_or_404(customer_id)
+        # accounts = Account.query.filter_by(name=customer.customer_id)
+        accounts = Account.query.filter(Account.customer_id == str(customer_id)).all()
+        return render_template('customer.html',customer=customer,accounts=accounts)
+
 
 @app.route('/depositMoney',methods=['GET','POST'])
 def depositMoney():
@@ -217,6 +267,38 @@ def depositMoney():
     else:
         return render_template('depositMoney.html')
 
+@app.route('/depositMoney/<int:account_id>',methods=['GET','POST'])
+def accountDepositMoney(account_id):
+    if request.method == 'POST':
+        account_id = account_id
+        amount = request.form['amount']
+
+        account_obj = Account.query.get_or_404(account_id) 
+        new_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Credit(deposit)")
+
+        update_balance = int(account_obj.balance) + int(amount)
+        account_obj.balance = update_balance
+
+        try:
+            db.session.add(new_transaction)
+            db.session.commit()
+            return redirect(url_for("showIndividualAccount",account_id=account_id))
+        except:
+            return 'Transaction failed'
+    else:
+        return render_template('AccountDepositMoney.html',account_id=account_id)
+
+@app.route('/showIndividualAccount/<int:account_id>',methods=['GET','POST'])
+def showIndividualAccount(account_id):
+    account_id = account_id
+    account = Account.query.get_or_404(account_id)
+    customer = Customer.query.get_or_404(account.customer_id)
+    return render_template('showIndividualAccount.html',account = account,customer=customer)
+    # return render_template('showIndividualAccount.html')
+
+
 @app.route('/withdrawMoney',methods=['GET','POST'])
 def withdrawMoney():
     if request.method == 'POST':
@@ -239,6 +321,31 @@ def withdrawMoney():
             return 'Transaction failed'
     else:
         return render_template('withdrawMoney.html')
+
+@app.route('/withdrawMoney/<int:account_id>',methods=['GET','POST'])
+def AccountWithdrawMoney(account_id):
+    if request.method == 'POST':
+        account_id = account_id
+        amount = request.form['amount']
+
+        account_obj = Account.query.get_or_404(account_id) 
+        new_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Debit(Withdraw)")
+
+        update_balance = int(account_obj.balance) - int(amount)
+        account_obj.balance = update_balance
+
+        try:
+            db.session.add(new_transaction)
+            db.session.commit()
+            return redirect(url_for("showIndividualAccount",account_id=account_id))
+        except:
+            return 'Transaction failed'
+    else:
+        return render_template('AccountWithdrawMoney.html',account_id=account_id)
+
+
 
 @app.route('/transferMoney',methods=['GET','POST'])
 def transferMoney():
@@ -274,10 +381,51 @@ def transferMoney():
     else:
         return render_template('transferMoney.html')
 
+@app.route('/transferMoney/<int:account_id>',methods=['GET','POST'])
+def accountTransferMoney(account_id):
+    if request.method == 'POST':
+        account_id = account_id
+        target_id = request.form['target_id']
+        amount = request.form['amount']
+
+        account_obj = Account.query.get_or_404(account_id) 
+        target_account_obj = Account.query.get_or_404(target_id)
+
+        new_Debit_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Debit(transfer)",source_account=account_id,target_account=target_id)
+
+        new_Credit_transaction = Transaction(customer_id = target_account_obj.customer_id,
+        account_id = target_id,account_type=target_account_obj.account_type,
+        amount=amount,transaction_type="Credit(transfer)",source_account=account_id,target_account=target_id)
+
+        update_Account_balance = int(account_obj.balance) - int(amount)
+        account_obj.balance = update_Account_balance
+
+        target_Account_balance = int(target_account_obj.balance) + int(amount)
+        target_account_obj.balance = target_Account_balance
+
+        try:
+            db.session.add(new_Debit_transaction)
+            db.session.add(new_Credit_transaction)
+            db.session.commit()
+            return redirect(url_for("showIndividualAccount",account_id=account_id))
+        except:
+            return 'Transaction failed'
+    else:
+        return render_template('AccountTransferMoney.html',account_id=account_id)
+
 @app.route('/showTransaction')
 def showTransaction():
     transactions = Transaction.query.order_by(Transaction.transaction_date).all()
     return render_template('showTransaction.html',transactions=transactions)
+
+@app.route('/showTransaction/<int:account_id>',methods=['POST','GET'])
+def accountShowTransaction(account_id):
+    account_id = account_id
+    transactions = Transaction.query.filter(Transaction.account_id==str(account_id)).order_by(Transaction.transaction_date).all()
+    return render_template('AccountShowTransaction.html',transactions=transactions)
+
 
 @app.route('/printStatement',methods=['GET','POST'])
 def printStatement():

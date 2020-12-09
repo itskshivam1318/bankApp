@@ -1,0 +1,49 @@
+{%extends 'base.html'%} {%block head%}
+<title>Show Account</title>
+{%endblock%} {%block body%}
+<h1>Show Customer</h1>
+<a href="/CAEDashboard">Home</a>
+<table>
+  <tr>
+    <th>Customer Id</th>
+    <th>SSN</th>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Age</th>
+  </tr>
+  <tr>
+    <td>{{customer.customer_id}}</td>
+    <td>{{customer.ssn}}</td>
+    <td>{{customer.name}}</td>
+    <td>{{customer.address}}</td>
+    <td>{{customer.age}}</td>
+    <td>
+      <a href="/deleteCustomer/{{customer.customer_id}}">Delete</a>
+      <br />
+      <a href="/updateCustomer/{{customer.customer_id}}">Update</a>
+    </td>
+  </tr>
+</table>
+<a href="/createAccount/{{customer.customer_id}}">Create Account</a>
+
+<h1>Show Accounts</h1>
+<table>
+  <tr>
+    <th>Account Id</th>
+    <th>Customer Id</th>
+    <th>Type</th>
+    <th>Balance</th>
+  </tr>
+  {%for account in accounts%}
+  <tr>
+    <td>{{account.account_id}}</td>
+    <td>{{account.customer_id}}</td>
+    <td>{{account.account_type}}</td>
+    <td>{{account.balance}}</td>
+    <td>
+      <a href="/deleteAccount/{{account.account_id}}">Delete</a>
+    </td>
+  </tr>
+  {% endfor%}
+</table>
+{%endblock%}

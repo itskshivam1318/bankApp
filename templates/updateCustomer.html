@@ -2,6 +2,7 @@
 <title>Update Customer</title>
 {%endblock%} {%block body%}
 <h1>Update Customer</h1>
+<a href="/CAEDashboard">Home</a>
 <form action="/updateCustomer/{{customer.customer_id}}" method="POST">
   <input type="text" name="ssn" placeholder="ssn" value="{{customer.ssn}}" />
   <input

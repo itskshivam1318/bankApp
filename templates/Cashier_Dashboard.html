@@ -1,11 +1,62 @@
 {%extends 'base.html'%} {%block head%}
 <title>Cashier Dashboard</title>
 {%endblock%} {%block body%}
-<h1>Cashier Dashboard</h1>
-<a href="/logout">logout</a>
-<a href="/depositMoney">Deposit Money</a>
-<a href="/withdrawMoney">Withdraw Money</a>
-<a href="/transferMoney">Transfer Money</a>
-<a href="/printStatement">Print Statement</a>
-<a href="/showTransaction">Show Transaction</a>
-{%endblock%}
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex">
+      <button class="btn btn-outline-danger" type="submit"><a href="/logout" style="text-decoration: none; color: red">logout</a></button>
+    </form>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Cashier Dashboard</h1>
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-7">
+      <h2>
+        <span class="navbar-brand mb-0">
+          <button type="button" class="btn btn-secondary btn-lg">
+            <a href="/depositMoney" style="text-decoration: none; color: white"
+              >Deposit Money</a
+            >
+          </button>
+          <button type="button" class="btn btn-secondary btn-lg">
+            <a href="/withdrawMoney" style="text-decoration: none; color: white"
+              >Withdraw Money</a
+            >
+          </button>
+        </button>
+        <button type="button" class="btn btn-secondary btn-lg">
+          <a href="/transferMoney" style="text-decoration: none; color: white"
+            >Transfer Money</a
+          >
+        </button>
+      </button>
+      <button type="button" class="btn btn-secondary btn-lg">
+        <a href="/showTransaction" style="text-decoration: none; color: white"
+          >Show Transactions</a
+        >
+      </button>
+        </span>
+      </h2>
+    </div>
+    <div class="col"></div>
+  </div>
+  <h4>Search Account</h4>
+<form action="/cashierSearchAccount" class="container-md" method="POST">
+  <input
+    class="form-control"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    name="search_Account"
+  />
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-md btn-outline-success" type="submit">
+      Search
+    </button>
+  </div>
+</form>
+  {%endblock%}
+</div>
