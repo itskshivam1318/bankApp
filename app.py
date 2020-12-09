@@ -244,20 +244,29 @@ def withdrawMoney():
 def transferMoney():
     if request.method == 'POST':
         account_id = request.form['account_id']
-        target_account = request.form['target_account']
+        target_id = request.form['target_id']
         amount = request.form['amount']
 
         account_obj = Account.query.get_or_404(account_id) 
-        target_account_obj = Account.query.get_or_404(target_account)
-        new_transaction = Transaction(customer_id = account_obj.customer_id,
-        account_id = account_id,account_type=account_obj.account_type,
-        amount=amount,transaction_type="Debit(transfer)",source_account=account_id,target_account=target_account)
+        target_account_obj = Account.query.get_or_404(target_id)
 
-        update_balance = int(account_obj.balance) - int(amount)
-        account_obj.balance = update_balance
+        new_Debit_transaction = Transaction(customer_id = account_obj.customer_id,
+        account_id = account_id,account_type=account_obj.account_type,
+        amount=amount,transaction_type="Debit(transfer)",source_account=account_id,target_account=target_id)
+
+        new_Credit_transaction = Transaction(customer_id = target_account_obj.customer_id,
+        account_id = target_id,account_type=target_account_obj.account_type,
+        amount=amount,transaction_type="Credit(transfer)",source_account=account_id,target_account=target_id)
+
+        update_Account_balance = int(account_obj.balance) - int(amount)
+        account_obj.balance = update_Account_balance
+
+        target_Account_balance = int(target_account_obj.balance) + int(amount)
+        target_account_obj.balance = target_Account_balance
 
         try:
-            db.session.add(new_transaction)
+            db.session.add(new_Debit_transaction)
+            db.session.add(new_Credit_transaction)
             db.session.commit()
             return redirect('/showTransaction')
         except:

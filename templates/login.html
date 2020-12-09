@@ -3,14 +3,39 @@
 {%endblock%} {%block body%}
 <h1>Login</h1>
 <form action="/login" method="POST">
-  <input type="text" name="username" placeholder="john doe" />
-  <input type="password" name="password" />
-  <label for="role">Role</label>
-  <select name="role">
-    <option value="CAE">CAE</option>
-    <option value="Cashier">Cashier</option>
-  </select>
-  <input type="submit" value="submit" />
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      name="username"
+      placeholder="john doe"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="exampleInputPassword1"
+      name="password"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputSelect" class="form-label">Role</label>
+    <select
+      class="form-select"
+      aria-label="Default select example"
+      id="exampleInputSelect"
+      name="role"
+    >
+      <option selected>Select role</option>
+      <option value="CAE">Customer Account Executive</option>
+      <option value="Cashier">Cashier/Teller</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary" value="submit">Submit</button>
 </form>
-
 {%endblock%}
