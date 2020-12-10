@@ -1,24 +1,77 @@
 {%extends 'base.html'%} {%block head%}
 <title>Update Customer</title>
 {%endblock%} {%block body%}
-<h1>Update Customer</h1>
-<a href="/CAEDashboard">Home</a>
-<form action="/updateCustomer/{{customer.customer_id}}" method="POST">
-  <input type="text" name="ssn" placeholder="ssn" value="{{customer.ssn}}" />
-  <input
-    type="text"
-    name="name"
-    placeholder="john doe"
-    value="{{customer.name}}"
-  />
-  <input
-    type="text"
-    name="address"
-    placeholder="address"
-    value="{{customer.address}}"
-  />
-  <input type="text" name="age" placeholder="age" value="{{customer.age}}" />
-  <input type="submit" value="update Task" />
-</form>
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex">
+      <button class="btn btn-outline-primary" type="submit">
+        <a href="/CAEDashboard" style="text-decoration: none; color: blue"
+          >Home</a
+        >
+      </button>
+    </form>
+  </div>
+</nav>
+<div class="container">
+  <h1>Update Customer</h1>
+  <form action="/updateCustomer/{{customer.customer_id}}" method="POST">
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <div class="mb-3">
+        <label for="accountid" class="form-label">SSN</label>
+        <input
+          type="text"
+          class="form-control"
+          id="ssn"
+          aria-describedby="emailHelp"
+          name="ssn"
+          value="{{customer.ssn}}"
+          placeholder="ssn"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          placeholder="john doe"
+          value="{{customer.name}}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          id="address"
+          name="address"
+          placeholder="address"
+          value="{{customer.address}}"
+        />
+      </div>
 
+      <div class="mb-3">
+        <label for="age" class="form-label">age</label>
+        <input
+          type="text"
+          class="form-control"
+          id="age"
+          name="age"
+          placeholder="age"
+          value="{{customer.age}}"
+        />
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button
+          type="submit"
+          class="btn btn-lg btn-primary btn-block"
+          value="submit"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
 {%endblock%}

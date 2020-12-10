@@ -1,33 +1,67 @@
 {%extends 'base.html'%} {%block head%}
 <title>Login</title>
 {%endblock%} {%block body%}
-<h1>Show Customer</h1>
-<a href="/CAEDashboard">Home</a>
-<a href="/createCustomer">Create Customer</a>
-{%if customers|length < 1%}
-<h4>There are no customer</h4>
-{%else%}
-<table>
-  <tr>
-    <th>SSN</th>
-    <th>Customer Id</th>
-    <th>Name</th>
-    <th>Address</th>
-    <th>Age</th>
-  </tr>
-  {%for customer in customers%}
-  <tr>
-    <td>{{customer.ssn}}</td>
-    <td>{{customer.customer_id}}</td>
-    <td>{{customer.name}}</td>
-    <td>{{customer.address}}</td>
-    <td>{{customer.age}}</td>
-    <td>
-      <a href="/deleteCustomer/{{customer.customer_id}}">Delete</a>
-      <br />
-      <a href="/updateCustomer/{{customer.customer_id}}">Update</a>
-    </td>
-  </tr>
-  {% endfor%}
-</table>
-{% endif%} {%endblock%}
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex">
+      <button class="btn btn-outline-primary" type="submit">
+        <a href="/CashierDashboard" style="text-decoration: none; color: blue"
+          >Home</a
+        >
+      </button>
+      &nbsp; &nbsp;&nbsp; &nbsp;
+      <button class="btn btn-outline-success" type="submit">
+        <a href="/createCustomer" style="text-decoration: none; color: green"
+          >Create Customer</a
+        >
+      </button>
+    </form>
+  </div>
+</nav>
+<div class="container">
+  <h1>Customer Details</h1>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Customer Id</th>
+        <th scope="col">SSN</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Age</th>
+        <th scope="col">Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for customer in customers%}
+      <tr>
+        <th scope="row">{{customer.customer_id}}</th>
+        <td>{{customer.ssn}}</td>
+        <td>{{customer.name}}</td>
+        <td>{{customer.address}}</td>
+        <td>{{customer.age}}</td>
+        <td>
+          <form class="d-flex">
+            <button class="btn btn-outline-success" type="submit">
+              <a
+                href="/updateCustomer/{{customer.customer_id}}"
+                style="text-decoration: none; color: green"
+                >Update</a
+              >
+            </button>
+            &nbsp; &nbsp;
+
+            <button class="btn btn-outline-danger" type="submit">
+              <a
+                href="/deleteCustomer/{{customer.customer_id}}"
+                style="text-decoration: none; color: red"
+                >Delete</a
+              >
+            </button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+    {% endfor%}
+  </table>
+</div>
+{%endblock%}

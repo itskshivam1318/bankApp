@@ -1,32 +1,48 @@
 {%extends 'base.html'%} {%block head%}
 <title>Show Accounts</title>
 {%endblock%} {%block body%}
-<a href="/CashierDashboard">Home</a>
-<h1>Show Transactions</h1>
-<table>
-  <tr>
-    <th>Transaction Id</th>
-    <th>Customer Id</th>
-    <th>Account Id</th>
-    <th>Account Type</th>
-    <th>Amount</th>
-    <th>Transaction Type</th>
-    <th>Transaction Date</th>
-    <th>Source Account</th>
-    <th>Target Account</th>
-  </tr>
-  {%for transaction in transactions%}
-  <tr>
-    <td>{{transaction.transaction_id}}</td>
-    <td>{{transaction.customer_id}}</td>
-    <td>{{transaction.account_id}}</td>
-    <td>{{transaction.account_type}}</td>
-    <td>{{transaction.amount}}</td>
-    <td>{{transaction.transaction_type}}</td>
-    <td>{{transaction.transaction_date}}</td>
-    <td>{{transaction.source_account}}</td>
-    <td>{{transaction.target_account}}</td>
-  </tr>
-  {% endfor%}
-</table>
-{%endblock%}
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex">
+      <button class="btn btn-outline-primary" type="submit">
+        <a href="/CashierDashboard" style="text-decoration: none; color: blue"
+          >Home</a
+        >
+      </button>
+    </form>
+  </div>
+</nav>
+<div class="container">
+  <h1>Transactions Details</h1>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Transaction Id</th>
+        <th scope="col">Customer Id</th>
+        <th scope="col">Account Id</th>
+        <th scope="col">Account Type</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Transaction Type</th>
+        <th scope="col">Transaction Date</th>
+        <th scope="col">Source Account</th>
+        <th scope="col">Target Account</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for transaction in transactions%}
+      <tr>
+        <th scope="row">{{transaction.transaction_id}}</td>
+      <td>{{transaction.customer_id}}</td>
+      <td>{{transaction.account_id}}</td>
+      <td>{{transaction.account_type}}</td>
+      <td>{{transaction.amount}}</td>
+      <td>{{transaction.transaction_type}}</td>
+      <td>{{transaction.transaction_date}}</td>
+      <td>{{transaction.source_account}}</td>
+      <td>{{transaction.target_account}}</td>
+      </tr>
+    </tbody>
+    {% endfor%}
+  </table>
+</div>
+  {%endblock%}
